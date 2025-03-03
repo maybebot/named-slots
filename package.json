@@ -1,0 +1,29 @@
+{
+  "name": "named-slots",
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/Slot.jsxs",
+  "module": "./dist/Slot.jsx",
+  "exports": {
+    ".": {
+      "default": "./dist/Slot.jsx",
+      "types": "./dist/Slot.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maybebot/named-slots"
+  },
+  "author": "Ian Bobinac",
+  "license": "MIT",
+  "description": "Named slots for preact",
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
