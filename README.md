@@ -1,6 +1,6 @@
 # named-slots
 
-Slots for preact in 500 bytes, unzipped
+Slots for preact in under 200 bytes, unzipped
 
 ```sh
 npm i named-slots
