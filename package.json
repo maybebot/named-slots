@@ -24,6 +24,7 @@
   "license": "MIT",
   "description": "Named slots for preact",
   "devDependencies": {
+    "@types/node": "^22.13.9",
     "typescript": "^5.8.2"
   }
 }
