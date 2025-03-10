@@ -1,7 +1,7 @@
 import type { ComponentChildren, VNode } from "preact";
 
 /** Multiple children. For one child, use the regular {children} */
-export type Slottable<T = string> = VNode<{ slot: T }>[];
+export type Slottable<T = string> = VNode<{ "data-slot": T }>[];
 
 interface Slot {
   name: string;
@@ -10,7 +10,7 @@ interface Slot {
 }
 
 export const Slot = ({ name, children: fallback, from }: Slot) => {
-  return from.find((el) => el.props?.slot === name) ?? fallback;
+  return from.find((el) => el.props?.["data-slot"] === name) ?? fallback;
 };
 
 const namedlog = (message: string) => {
@@ -29,7 +29,7 @@ export const validateSlots = <T extends unknown = string>(
   const definedIn = inComponent ? `, defined in ${inComponent.name},` : "";
 
   children.forEach((child) => {
-    const slotName = child.props.slot;
+    const slotName = child.props?.["data-slot"];
     if (!slotNames.includes(slotName)) {
       const message = `Slot '${slotName}'${definedIn} is not valid.
 Valid slots are: ${slotNames.join(", ")}`;
@@ -48,15 +48,6 @@ Each named-slot can be defined and used only once.`;
         namedlog(message);
       }
     }
-    usedSlots.push(child.props.slot);
+    usedSlots.push(child.props?.["data-slot"]);
   });
 };
-
-declare module "preact" {
-  namespace JSX {
-    interface IntrinsicAttributes {
-      key?: any;
-      slot?: string;
-    }
-  }
-}

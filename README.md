@@ -8,7 +8,7 @@ npm i named-slots
 
 Declare "holes" in your components with `<Slot name="header">`.
 
-Fill them with any Component or html element in the slot with the `slot` attribute: `<div slot="header">`.
+Fill them with any Component or html element in the slot with the `data-slot` attribute: `<div data-slot="header">`.
 
 See example below.
 
@@ -45,11 +45,11 @@ Then get consumed like this:
 import { Slot } from "named-slots";
 
 <Card>
-  <div slot="header" className={"class-from-outside"}>
+  <div data-slot="header" className={"class-from-outside"}>
     This div is not semantic
   </div>
-  <JsxComponent slot="content" />
-  <footer slot="footer">I'm a footer</footer>
+  <JsxComponent data-slot="content" />
+  <footer data-slot="footer">I'm a footer</footer>
 </Card>;
 ```
 
@@ -57,10 +57,12 @@ This will render the following html:
 
 ```html
 <div class="card">
-  <div slot="header" class="class-from-outside">This div is not semantic</div>
+  <div data-slot="header" class="class-from-outside">
+    This div is not semantic
+  </div>
   <section class="preact">Some content</section>
   <div class="class-from-inside">
-    <footer slot="footer">I'm a footer</footer>
+    <footer data-slot="footer">I'm a footer</footer>
   </div>
 </div>
 ```
