@@ -67,6 +67,12 @@ This will render the following html:
 </div>
 ```
 
+Validation and debugging. Almost type-safety.
+
+```js
+import { Slot, validateSlots, type Slottable } from "named-slots";
+```
+
 ---
 
 Made with 🍕 in Amsterdam.
