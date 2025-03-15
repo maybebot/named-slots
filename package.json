@@ -9,8 +9,8 @@
   "module": "./dist/Slot.jsx",
   "exports": {
     ".": {
-      "default": "./dist/Slot.jsx",
-      "types": "./dist/Slot.d.ts"
+      "types": "./dist/Slot.d.ts",
+      "default": "./dist/Slot.jsx"
     }
   },
   "scripts": {

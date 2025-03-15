@@ -1,11 +1,8 @@
-import type { ComponentChildren, VNode } from "preact";
-
-/** Multiple children. For one child, use the regular {children} */
-export type Slottable<T = string> = VNode<{ "data-slot": T }>[];
+export type Slottable = { props: any }[]; // relaxed for compatibility between preact/react
 
 interface Slot {
   name: string;
-  children?: ComponentChildren;
+  children?: any;
   from: Slottable;
 }
 
@@ -22,7 +19,7 @@ const namedlog = (message: string) => {
  * @returns {void}
  */
 export const validateSlots = <T extends unknown = string>(
-  children: Slottable<T>,
+  children: Slottable,
   slotNames: T[],
   { throws, inComponent }: { throws?: boolean; inComponent: Function }
 ) => {
