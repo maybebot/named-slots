@@ -1,4 +1,4 @@
-import { Slot, Slottable, validateSlots } from "../../../src/solid/Slot";
+import { Slot, Slottable, validateSlots } from "named-slots/solid";
 
 export const Card = ({ children }: { children: Slottable }) => {
   validateSlots(children, ["header", "content", "footer"], {

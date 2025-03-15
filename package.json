@@ -18,7 +18,8 @@
     }
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "check:builds": "bash ./scripts/check-builds.sh"
   },
   "repository": {
     "type": "git",
