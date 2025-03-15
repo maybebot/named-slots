@@ -1,14 +1,15 @@
-# named-slots
+# named-slots 🦥
 
-Slots for preact in under 200 bytes, unzipped
+Slots for preact, react and solid in under 0.2Kb, unzipped, unminified
 
 ```sh
 npm i named-slots
 ```
 
-Declare "holes" in your components with `<Slot name="header">`.
+Use declarative "holes" in your components with `<Slot name="header">` instead of an imperative prop based approach.
+Inspired by slots in Vue/Svelte/Angular/WebComponents.
 
-Fill them with any Component or html element in the slot with the `data-slot` attribute: `<div data-slot="header">`.
+Fill them with any Component or HTML element in the slot with the `data-slot` attribute: `<div data-slot="header">`.
 
 See example below.
 
@@ -16,15 +17,22 @@ See example below.
 
 Declaring slots in component where they render, eg a Card component
 
+| `Slot` props       |                                                                                                                                   |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `name`             | name of the slot                                                                                                                  |
+| `from`             | always the `children` of where the `Slot` is defined, to give the Slot control over it                                            |
+| `children`/content | Fallback content for when nothing has been slotted in. If nothing is slotted, and no fallback is given, it will not render at all |
+
 ```jsx
 // Card.tsx
-import { ComponentChildren } from "preact";
-import { Slot } from "named-slots";
+import { Slot, Slottable } from "named-slots";
 
-export const Card = ({ children }: { children: ComponentChildren }) => {
+export const Card = ({ children }: { children: Slottable }) => {
+  // optionally validate slots during development, see below
   return (
     <div className={"card"}>
-      <Slot name="header" from={children}></Slot> {/* no fallback, renders only if slot is provided */}
+      {/* header has no fallback, renders only if slot is provided */}
+      <Slot name="header" from={children} />
       <Slot name="content" from={children}>
         Fallback content
       </Slot>
@@ -67,10 +75,32 @@ This will render the following html:
 </div>
 ```
 
-Validation and debugging. Almost type-safety.
+## Solid.js
+
+Since solid does not use a VDOM the usage changes a tiny bit, with a dedicated import.
+
+```ts
+import { Slot } from "named-slots/solid";
+```
+
+In addition every element with `data-slot` needs to be an HTML element, not a Solid component (or wrapped in one). In the example above, `<JsxComponent data-slot="content" />` would not work. `<div ="content"><JsxComponent data-slot="content" /></div>`.
+
+## Validation and debugging. Almost type-safety.
+
+Adding types or autocompletion to validate the slot name has been a miserable failure so far.
+
+Runtime validation can be achived using `validateSlots`.
+This will be stripped away automatically in production (based on `process.env.NODE_ENV`) to not impact bundle size.
 
 ```js
 import { Slot, validateSlots, type Slottable } from "named-slots";
+
+export const Card = ({ children }: { children: Slottable }) => {
+  validateSlots(children, ["header", "content", "footer"], {
+    inComponent: Card,
+  });
+  return (...)
+};
 ```
 
 ---
