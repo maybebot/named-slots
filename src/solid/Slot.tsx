@@ -1,14 +1,13 @@
-export type Slottable = { props: any }[]; // relaxed for compatibility between preact/react
+export type Slottable = any[]; // TODO: narrow for solid
 
 interface Slot {
   name: string;
   children?: any;
-  from: Slottable;
+  from: any[];
 }
 
-export const Slot = ({ name, children: fallback, from }: Slot) => {
-  return from.find((el) => el.props?.["data-slot"] === name) ?? fallback;
-};
+export const Slot = ({ name, children: fallback, from }: Slot) =>
+  from.find((el) => el.getAttribute("data-slot") === name) ?? fallback;
 
 const namedlog = (message: string) => {
   console.error("%c [named-slots]", "color: #56b9c8", message);
@@ -19,13 +18,13 @@ const namedlog = (message: string) => {
  * @returns {void}
  */
 export const validateSlots = <T extends unknown = string>(
-  children: Slottable,
+  children: any[],
   slotNames: T[],
   { throws, inComponent }: { throws?: boolean; inComponent: Function }
 ) => {
   if (process.env.NODE_ENV !== "development") return;
 
-  const usedSlots: T[] = [];
+  const usedSlots: any[] = [];
 
   const definedIn = inComponent ? `, defined in '${inComponent.name}',` : "";
 
