@@ -1,0 +1,44 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  width: 50vw;
+  font-size: 32px;
+  color: black;
+  border: 0.2em solid #666;
+  box-sizing: border-box;
+  background-color: cadetblue;
+}
+.card > * {
+  border: 0.1em solid #eee;
+}
+
+.card [data-slot="header"],
+.card [data-slot="content"],
+.card [data-slot="footer"] {
+  background-color: rebeccapurple;
+}
