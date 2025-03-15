@@ -11,6 +11,10 @@
     ".": {
       "types": "./dist/Slot.d.ts",
       "default": "./dist/Slot.jsx"
+    },
+    "./solid": {
+      "types": "./dist/solid/Slot.d.ts",
+      "default": "./dist/solid/Slot.jsx"
     }
   },
   "scripts": {
