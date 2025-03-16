@@ -4,11 +4,11 @@ import { RandomComponent } from "./RandomComponent";
 function App() {
   return (
     <Card>
-      <div data-slot="header" className={"class-from-outside"}>
+      <div slot="header" className={"class-from-outside"}>
         This div is not semantic
       </div>
-      <RandomComponent data-slot="content" />
-      <footer data-slot="footer">I'm a footer</footer>
+      <RandomComponent slot="content" />
+      <footer slot="footer">I'm a footer</footer>
     </Card>
   );
 }

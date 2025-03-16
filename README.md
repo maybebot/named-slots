@@ -9,7 +9,7 @@ npm i named-slots
 Use declarative "holes" in your components with `<Slot name="header">` instead of an imperative prop based approach.
 Inspired by slots in Vue/Svelte/Angular/WebComponents.
 
-Fill them with any Component or HTML element in the slot with the `data-slot` attribute: `<div data-slot="header">`.
+Fill them with any Component or HTML element in the slot with the `slot` attribute: `<div slot="header">`.
 
 See example below.
 
@@ -53,11 +53,11 @@ Then get consumed like this:
 import { Slot } from "named-slots";
 
 <Card>
-  <div data-slot="header" className={"class-from-outside"}>
+  <div slot="header" className={"class-from-outside"}>
     This div is not semantic
   </div>
-  <JsxComponent data-slot="content" />
-  <footer data-slot="footer">I'm a footer</footer>
+  <JsxComponent slot="content" />
+  <footer slot="footer">I'm a footer</footer>
 </Card>;
 ```
 
@@ -65,12 +65,10 @@ This will render the following html:
 
 ```html
 <div class="card">
-  <div data-slot="header" class="class-from-outside">
-    This div is not semantic
-  </div>
+  <div slot="header" class="class-from-outside">This div is not semantic</div>
   <section class="preact">Some content</section>
   <div class="class-from-inside">
-    <footer data-slot="footer">I'm a footer</footer>
+    <footer slot="footer">I'm a footer</footer>
   </div>
 </div>
 ```
@@ -83,7 +81,7 @@ Since solid does not use a VDOM the usage changes a tiny bit, with a dedicated i
 import { Slot } from "named-slots/solid";
 ```
 
-In addition every element with `data-slot` needs to be an HTML element, not a Solid component (or wrapped in one). In the example above, `<JsxComponent data-slot="content" />` would not work. `<div ="content"><JsxComponent data-slot="content" /></div>`.
+In addition every element with `slot` needs to be an HTML element, not a Solid component (or wrapped in one). In the example above, `<JsxComponent slot="content" />` would not work. `<div ="content"><JsxComponent slot="content" /></div>`.
 
 ## Validation and debugging. Almost type-safety.
 

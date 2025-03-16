@@ -37,8 +37,8 @@ body {
   border: 0.1em solid #eee;
 }
 
-.card [data-slot="header"],
-.card [data-slot="content"],
-.card [data-slot="footer"] {
+.card [slot="header"],
+.card [slot="content"],
+.card [slot="footer"] {
   background-color: rebeccapurple;
 }

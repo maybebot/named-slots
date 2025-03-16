@@ -7,7 +7,7 @@ interface Slot {
 }
 
 export const Slot = ({ name, children: fallback, from }: Slot) => {
-  return from.find((el) => el.props?.["data-slot"] === name) ?? fallback;
+  return from.find((el) => el.props?.slot === name) ?? fallback;
 };
 
 const namedlog = (message: string) => {
@@ -15,7 +15,7 @@ const namedlog = (message: string) => {
 };
 
 /**
- * Check if slots are valid. Detects undefined, duplicates and invalid data-slot names.
+ * Check if slots are valid. Detects undefined, duplicates and invalid slot names.
  * @returns {void}
  */
 export const validateSlots = <T extends unknown = string>(
@@ -38,21 +38,39 @@ export const validateSlots = <T extends unknown = string>(
   };
 
   children.forEach((child) => {
-    const slotName = child.props?.["data-slot"];
+    const slotName = child.props?.slot;
     if (!slotName) {
       throwOrLog(
-        `A slottable component${definedIn} has been passed children without a data-slot attribute.
-Valid data-slot names are: ${slotNames.join(", ")}`
+        `A slottable component${definedIn} has been passed children without a slot attribute.
+Valid slot names are: ${slotNames.join(", ")}`
       );
     }
     if (!slotNames.includes(slotName)) {
       throwOrLog(`Slot '${slotName}'${definedIn} is not valid.
-Valid data-slot names are: ${slotNames.join(", ")}`);
+Valid slot names are: ${slotNames.join(", ")}`);
     }
     if (usedSlots.includes(slotName)) {
       throwOrLog(`Slot '${slotName}'${definedIn} has been used more than once.
 Each named-slot can be defined and used only once.`);
     }
-    usedSlots.push(child.props?.["data-slot"]);
+    usedSlots.push(child.props?.slot);
   });
 };
+
+// @ts-expect-error preact not present
+declare module "preact" {
+  namespace JSX {
+    interface IntrinsicAttributes {
+      slot?: string;
+    }
+  }
+}
+
+// @ts-expect-error react not present
+declare module "react" {
+  namespace JSX {
+    interface IntrinsicAttributes {
+      slot?: string;
+    }
+  }
+}
