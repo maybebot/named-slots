@@ -1,9 +1,16 @@
 {
   "name": "named-slots",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "slots",
+    "named",
+    "preact",
+    "react",
+    "solid"
   ],
   "main": "./dist/Slot.jsxs",
   "module": "./dist/Slot.jsx",
