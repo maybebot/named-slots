@@ -15,28 +15,28 @@ See example below.
 
 ## Usage
 
-Declaring slots in component where they render, eg a Card component
-
 | `Slot` props       |                                                                                                                                   |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
 | `name`             | name of the slot                                                                                                                  |
 | `from`             | always the `children` of where the `Slot` is defined, to give the Slot control over it                                            |
 | `children`/content | Fallback content for when nothing has been slotted in. If nothing is slotted, and no fallback is given, it will not render at all |
 
+Define Slots in the component where you want them them to render, for example a Card component
+
 ```jsx
 // Card.tsx
 import { Slot, Slottable } from "named-slots";
 
 export const Card = ({ children }: { children: Slottable }) => {
-  // optionally validate slots during development, see below
+  // optionally validate slots during development, see defineSlots below
   return (
-    <div className={"card"}>
+    <div>
       {/* header has no fallback, renders only if slot is provided */}
       <Slot name="header" from={children} />
       <Slot name="content" from={children}>
         Fallback content
       </Slot>
-      <div className={"class-from-inside"}>
+      <div>
         <Slot name="footer" from={children}>
           Fallback footer
         </Slot>
@@ -53,10 +53,8 @@ Then get consumed like this:
 import { Slot } from "named-slots";
 
 <Card>
-  <div slot="header" className={"class-from-outside"}>
-    This div is not semantic
-  </div>
-  <JsxComponent slot="content" />
+  <div slot="header">This div is not semantic</div>
+  <RandomComponent slot="content" />
   <footer slot="footer">I'm a footer</footer>
 </Card>;
 ```
@@ -75,31 +73,47 @@ This will render the following html:
 
 ## Solid.js
 
-Since solid does not use a VDOM the usage changes a tiny bit, with a dedicated import.
+Since solid does not use a VDOM it has a dedicated import.
 
 ```ts
 import { Slot } from "named-slots/solid";
 ```
 
-In addition every element with `slot` needs to be an HTML element, not a Solid component (or wrapped in one). In the example above, `<JsxComponent slot="content" />` would not work. `<div ="content"><JsxComponent slot="content" /></div>`.
+In addition every element with `slot` needs to be an HTML element, not a Solid component (or wrapped in one). In the example above, `<RandomComponent slot="content" />` would not work. `<div ="content"><RandomComponent slot="content" /></div>` would.
 
-## Validation and debugging. Almost type-safety.
+## Type safety and validation
 
-Adding types or autocompletion to validate the slot name has been a miserable failure so far.
+To type and validate slots it is recommended to use `defineSlots`, which returns a type-aware Slot component and provides runtime validation for slot usage, duplication and absence. Using `defineSlots` there is no need to specify `from={children}` on the Slots.
 
-Runtime validation can be achived using `validateSlots`.
-This will be stripped away automatically in production (based on `process.env.NODE_ENV`) to not impact bundle size.
+This is the recommended approach. The API is not the prettiest, requiring a Generic of the type and the values as well, but it provides extra security.
+
+A third, optional, parameter can be passed to `defineSlots`, to improve debugging or to throw instead of console.logging. (example: `{ inComponent: Card, throws: true }`).
+
+This will be stripped away in production to not add to the bundle (with a check on `process.env.NODE_ENV === "development"`).
 
 ```js
-import { Slot, validateSlots, type Slottable } from "named-slots";
+import { defineSlots, type Slottable } from "named-slots";
 
 export const Card = ({ children }: { children: Slottable }) => {
-  validateSlots(children, ["header", "content", "footer"], {
-    inComponent: Card,
-  });
-  return (...)
+  type CardSlots = "header" | "content" | "footer";
+  const Slot = defineSlots<CardSlots>(children, ["header", "content", "footer"], { inComponent: Card, throws: true });
+  return (
+    <div>
+      <Slot name="header"></Slot>
+      <Slot name="content">
+        <div>Fallback content</div>
+      </Slot>
+      <div>
+        <Slot name="footer">
+          <div>Fallback footer</div>
+        </Slot>
+      </div>
+    </div>
+  );
 };
 ```
+
+Adding proper types and autocompletion for slot names during usage (not definition) has been a miserable failure so far, which is why runtime validation has been added.
 
 ---
 
