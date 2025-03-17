@@ -1,6 +1,6 @@
-import { Slottable, defineSlots } from "named-slots/solid";
+import { defineSlots, type Slottable } from "named-slots";
 
-export const DefinedCard = ({ children }: { children: Slottable }) => {
+export const FlexingCard = ({ children }: { children: Slottable }) => {
   const Slot = defineSlots<"header" | "content" | "footer">(children, [
     "header",
     "content",
@@ -8,13 +8,14 @@ export const DefinedCard = ({ children }: { children: Slottable }) => {
   ]);
 
   return (
-    <div class={"card"}>
+    <div className={"card"}>
       <Slot name="header"></Slot>
       {/* no fallback, renders only if slot is provided */}
       <Slot name="content">
         <div>Fallback content</div>
       </Slot>
-      <div class={"class-from-inside"}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        {/* flex, to horizontaly display many children (with <template>) */}
         <Slot name="footer">
           <div style={{ background: "pink" }}>Fallback footer</div>
         </Slot>
