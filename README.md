@@ -9,11 +9,11 @@ npm i named-slots
 Use declarative "holes" in your components with `<Slot name="header">` instead of an imperative prop based approach.
 Inspired by slots in Vue/Svelte/Angular/WebComponents.
 
-Fill them with any Component or HTML element in the slot with the `slot` attribute: `<div slot="header">`.
+Fill them with any Component or HTML element in the slot with the `slot` attribute: `<div slot="header">`. Use the `<template slot="header">` element to render only the contents of it, typically text or multiple elements.
 
 See example below.
 
-## Usage
+## Defining a Slot
 
 | `Slot` props       |                                                                                                                                   |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -21,7 +21,7 @@ See example below.
 | `from`             | always the `children` of where the `Slot` is defined, to give the Slot control over it                                            |
 | `children`/content | Fallback content for when nothing has been slotted in. If nothing is slotted, and no fallback is given, it will not render at all |
 
-Define Slots in the component where you want them them to render, for example a Card component
+Define Slots in the component where you want them them to render, for example a Card component, where you want a header, content and a footer.
 
 ```jsx
 // Card.tsx
@@ -30,23 +30,27 @@ import { Slot, Slottable } from "named-slots";
 export const Card = ({ children }: { children: Slottable }) => {
   // optionally validate slots during development, see defineSlots below
   return (
-    <div>
+    <section>
       {/* header has no fallback, renders only if slot is provided */}
       <Slot name="header" from={children} />
       <Slot name="content" from={children}>
         Fallback content
       </Slot>
-      <div>
-        <Slot name="footer" from={children}>
-          Fallback footer
-        </Slot>
+      <div className="slots-go-anywhere">
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Slot name="footer" from={children}>
+            Fallback footer
+          </Slot>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 ```
 
-Then get consumed like this:
+## Consuming components with Slots
+
+Now that the card accepts slots, you can insert them inside a `<Card>` with an slot attribute. Using the slot attribute on a `<template>` element will render only the contents of the template.
 
 ```jsx
 // Page.tsx
@@ -55,7 +59,10 @@ import { Slot } from "named-slots";
 <Card>
   <div slot="header">This div is not semantic</div>
   <RandomComponent slot="content" />
-  <footer slot="footer">I'm a footer</footer>
+  <template slot="footer">
+    <div>One</div>
+    <div>Two</div>
+  </template>
 </Card>;
 ```
 
@@ -79,7 +86,7 @@ Since solid does not use a VDOM it has a dedicated import.
 import { Slot } from "named-slots/solid";
 ```
 
-In addition every element with `slot` needs to be an HTML element, not a Solid component (or wrapped in one). In the example above, `<RandomComponent slot="content" />` would not work. `<div ="content"><RandomComponent slot="content" /></div>` would.
+In addition every element with `slot` needs to be an HTML element, not a Solid component (or wrapped in one like the `<template>`). In the example above, `<RandomComponent slot="content" />` would not work. `<div ="content"><RandomComponent slot="content" /></div>` would.
 
 ## Type safety and validation
 
