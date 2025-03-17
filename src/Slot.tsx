@@ -6,6 +6,19 @@ interface Slot<T = string> {
   from: Slottable;
 }
 
+const getSlot = <T extends unknown = string>({
+  name,
+  children: fallback,
+  from,
+}: Slot<T>) => {
+  const slot = from.find((el) => el.props?.slot === name);
+  // @ts-ignore-error type not declared in Slottable, present on HTML elements
+  if (slot?.type === "template") {
+    return slot.props.children;
+  }
+  return slot ?? fallback;
+};
+
 /**
  * Named slot component. Renders the first child with a matching slot attribute.
  * @param {string} name - The name of the slot to render.
@@ -17,7 +30,7 @@ export const Slot = <T extends unknown = string>({
   name,
   children: fallback,
   from,
-}: Slot<T>) => from.find((el) => el.props?.slot === name) ?? fallback;
+}: Slot<T>) => getSlot<T>({ name, children: fallback, from });
 
 /**
  * Check at runtime if slots are valid. Detects undefined, duplicates and invalid slot names.
@@ -62,7 +75,7 @@ export const validateSlots = <T extends unknown = string>(
       throwOrLog(`Slot '${slotName}'${definedIn} has been used more than once.
 Each named-slot can be defined and used only once.`);
     }
-    usedSlots.push(child.props?.slot);
+    usedSlots.push(slotName);
   });
 };
 
@@ -82,12 +95,11 @@ export const defineSlots = <T extends unknown = string>(
 ) => {
   validateSlots(children, slotNames, options ?? {});
   // closure over children
-  return ({ name, children: fallback }: DefinedSlot<T>) => {
-    return children.find((el) => el.props?.slot === name) ?? fallback;
-  };
+  return ({ name, children: fallback }: DefinedSlot<T>) =>
+    getSlot<T>({ name, children: fallback, from: children });
 };
 
-// @ts-expect-error preact not present
+// @ts-ignore-error preact not present
 declare module "preact" {
   namespace JSX {
     interface IntrinsicAttributes {
@@ -96,7 +108,7 @@ declare module "preact" {
   }
 }
 
-// @ts-expect-error react not present
+// @ts-ignore-error react not present
 declare module "react" {
   namespace JSX {
     interface IntrinsicAttributes {
