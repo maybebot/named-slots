@@ -2,10 +2,9 @@
 
 Slots for preact, react and solid in under 0.2Kb, unzipped, unminified
 
-<img align="right" width="50" height="50" src="./frameworks/solid/solid.svg">
-<img align="right" width="50" height="50" src="./frameworks/react/react.svg">
-<img align="right" width="50" height="50" src="./frameworks/preact/preact.svg">
-
+<img align="right" width="50" height="50" src="https://github.com/maybebot/named-slots/blob/main/frameworks/solid/solid.svg">
+<img align="right" width="50" height="50" src="https://github.com/maybebot/named-slots/blob/main/frameworks/react/react.svg">
+<img align="right" width="50" height="50" src="https://github.com/maybebot/named-slots/blob/main/frameworks/preact/preact.svg">
 ```sh
 npm i named-slots
 ```
@@ -107,12 +106,7 @@ import { defineSlots, type Slottable } from "named-slots";
 
 export const Card = ({ children }: { children: Slottable }) => {
   type CardSlots = "header" | "content" | "footer";
-  const Slot =
-    defineSlots <
-    CardSlots >
-    (children,
-    ["header", "content", "footer"],
-    { inComponent: Card, throws: true });
+  const Slot = defineSlots<CardSlots>(children, ["header", "content", "footer"], { inComponent: Card, throws: true });
   return (
     <div>
       <Slot name="header"></Slot>
@@ -130,6 +124,76 @@ export const Card = ({ children }: { children: Slottable }) => {
 ```
 
 Adding proper types and autocompletion for slot names during usage (not definition) has been a miserable failure so far, which is why runtime validation has been added.
+
+## Lock-in, or the absence thereof
+
+This library does not want to lock you in. If you decide to adopt it and later on move away from it, my feeling will be hurt, but yours won't. Moving away is pretty straightforward.
+
+The example below:
+
+```jsx
+// Page.tsx
+<Card>
+  <div slot="header" className={"class-from-outside"}>
+    This div is not semantic
+  </div>
+  <RandomComponent slot="content" />
+  <footer slot="footer">I'm a footer</footer>
+</Card>
+
+// Card.tsx
+import { Slot, Slottable } from "named-slots";
+
+export const Card = ({ children }: { children: Slottable }) => {
+  return (
+    <section>
+      <Slot name="header" from={children} />
+      <Slot name="content" from={children}>
+        Fallback content
+      </Slot>
+      <div className="slots-go-anywhere">
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Slot name="footer" from={children}>
+            Fallback footer
+          </Slot>
+        </div>
+      </div>
+    </section>
+  );
+};
+```
+
+Can be easily converted to this, by switching slots with props, and fallbacks with conditionals:
+
+```jsx
+// Page.tsx
+<Card
+  header={<div className={"class-from-outside"}>This div is not semantic</div>}
+  footer={<footer slot="footer">I'm a footer</footer>}
+>
+  <RandomComponent slot="content" />
+</Card>
+// Card.tsx
+export const Card = ({
+  children,
+  header,
+  footer,
+}: {
+  children: ComponentChildren,
+  header: ComponentChildren,
+  footer: ComponentChildren,
+}) => {
+  return (
+    <div className={"card"}>
+      {header}
+      {!!children || <div>Fallback content</div>}
+      <div className={"class-from-inside"}>
+        {!!footer || <div style={{ background: "pink" }}>Fallback footer</div>}
+      </div>
+    </div>
+  );
+};
+```
 
 ---
 
