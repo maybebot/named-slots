@@ -5,6 +5,7 @@ Slots for preact, react and solid in under 0.2Kb, unzipped, unminified
 <img align="right" width="50" height="50" src="https://github.com/maybebot/named-slots/blob/main/frameworks/solid/solid.svg">
 <img align="right" width="50" height="50" src="https://github.com/maybebot/named-slots/blob/main/frameworks/react/react.svg">
 <img align="right" width="50" height="50" src="https://github.com/maybebot/named-slots/blob/main/frameworks/preact/preact.svg">
+
 ```sh
 npm i named-slots
 ```
@@ -106,7 +107,12 @@ import { defineSlots, type Slottable } from "named-slots";
 
 export const Card = ({ children }: { children: Slottable }) => {
   type CardSlots = "header" | "content" | "footer";
-  const Slot = defineSlots<CardSlots>(children, ["header", "content", "footer"], { inComponent: Card, throws: true });
+  const Slot =
+    defineSlots <
+    CardSlots >
+    (children,
+    ["header", "content", "footer"],
+    { inComponent: Card, throws: true });
   return (
     <div>
       <Slot name="header"></Slot>
@@ -139,7 +145,7 @@ The example below:
   </div>
   <RandomComponent slot="content" />
   <footer slot="footer">I'm a footer</footer>
-</Card>
+</Card>;
 
 // Card.tsx
 import { Slot, Slottable } from "named-slots";
@@ -172,7 +178,7 @@ Can be easily converted to this, by switching slots with props, and fallbacks wi
   footer={<footer slot="footer">I'm a footer</footer>}
 >
   <RandomComponent slot="content" />
-</Card>
+</Card>;
 // Card.tsx
 export const Card = ({
   children,
