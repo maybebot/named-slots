@@ -1,4 +1,4 @@
-export type Slottable = any[]; // TODO: narrow for solid
+export type Slottable = any | any[]; // TODO: narrow for solid
 
 interface Slot<T = string> {
   name: T;
@@ -11,7 +11,8 @@ const getSlot = <T extends unknown = string>({
   children: fallback,
   from,
 }: Slot<T>) => {
-  const slot = from.find((el) => el.getAttribute("slot") === name);
+  const slotted = Array.isArray(from) ? from : [from];
+  const slot = slotted.find((el) => el.getAttribute("slot") === name);
   if (slot?.tagName === "TEMPLATE") {
     return slot.content;
   }
@@ -49,6 +50,7 @@ export const validateSlots = <T extends unknown = string>(
   if (process.env.NODE_ENV !== "development") return;
 
   const usedSlots: any[] = [];
+  const slotted = Array.isArray(children) ? children : [children];
 
   const definedIn = inComponent ? `, defined in '${inComponent.name}',` : "";
   const validSlots = `Valid slot names are: ${slotNames.join(", ")} \n`;
@@ -61,7 +63,7 @@ export const validateSlots = <T extends unknown = string>(
     }
   };
 
-  children.forEach((child) => {
+  slotted.forEach((child) => {
     const slotName = child.getAttribute("slot");
     if (!slotName) {
       throwOrLog(
