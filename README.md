@@ -1,6 +1,10 @@
-# named-slots 🦥
+## named-slots 🦥
 
 Slots for preact, react and solid in under 0.2Kb, unzipped, unminified
+
+<img align="right" width="50" height="50" src="./frameworks/solid/solid.svg">
+<img align="right" width="50" height="50" src="./frameworks/react/react.svg">
+<img align="right" width="50" height="50" src="./frameworks/preact/preact.svg">
 
 ```sh
 npm i named-slots
@@ -103,7 +107,12 @@ import { defineSlots, type Slottable } from "named-slots";
 
 export const Card = ({ children }: { children: Slottable }) => {
   type CardSlots = "header" | "content" | "footer";
-  const Slot = defineSlots<CardSlots>(children, ["header", "content", "footer"], { inComponent: Card, throws: true });
+  const Slot =
+    defineSlots <
+    CardSlots >
+    (children,
+    ["header", "content", "footer"],
+    { inComponent: Card, throws: true });
   return (
     <div>
       <Slot name="header"></Slot>
