@@ -8,6 +8,7 @@
       "outDir": "dist",
       "declaration": true,
       "sourceMap": true,
+      "inlineSources": true,
       "moduleResolution": "nodenext",
       "strict": true,
       "types": ["node"],
