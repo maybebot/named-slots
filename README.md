@@ -1,4 +1,4 @@
-## named-slots 🦥
+## named-slots
 
 Slots for preact, react and solid in under 0.2Kb, unzipped, unminified
 
@@ -10,20 +10,18 @@ Slots for preact, react and solid in under 0.2Kb, unzipped, unminified
 npm i named-slots
 ```
 
-Use declarative "holes" in your components with `<Slot name="header">` instead of an imperative prop based approach.
+Define "holes" in your components with `<Slot name="header">`.
+Fill them declaratively with any Component or HTML element using the `slot` attribute: `<div slot="header">`. Use the `<template slot="header">` element to render only the contents of it, typically text or multiple elements.
+
 Inspired by slots in Vue/Svelte/Angular/WebComponents.
-
-Fill them with any Component or HTML element in the slot with the `slot` attribute: `<div slot="header">`. Use the `<template slot="header">` element to render only the contents of it, typically text or multiple elements.
-
-See example below.
 
 ## Defining a Slot
 
-| `Slot` props       |                                                                                                                                   |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| `name`             | name of the slot                                                                                                                  |
-| `from`             | always the `children` of where the `Slot` is defined, to give the Slot control over it                                            |
-| `children`/content | Fallback content for when nothing has been slotted in. If nothing is slotted, and no fallback is given, it will not render at all |
+| `<Slot>` props      |                                                                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `name`              | name of the slot                                                                                                                  |
+| `from`              | always the `children` of where the `Slot` is defined, to give the Slot control over it (only when not using `defineSlots`)        |
+| content(`children`) | Fallback content for when nothing has been slotted in. If nothing is slotted, and no fallback is given, it will not render at all |
 
 Define Slots in the component where you want them them to render, for example a Card component, where you want a header, content and a footer.
 
@@ -41,11 +39,9 @@ export const Card = ({ children }: { children: Slottable }) => {
         Fallback content
       </Slot>
       <div className="slots-go-anywhere">
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Slot name="footer" from={children}>
-            Fallback footer
-          </Slot>
-        </div>
+        <Slot name="footer" from={children}>
+          Fallback footer
+        </Slot>
       </div>
     </section>
   );
@@ -82,7 +78,7 @@ This will render the following html:
 </div>
 ```
 
-## Solid.js
+## With Solid.js
 
 Since solid does not use a VDOM it has a dedicated import.
 
@@ -110,9 +106,7 @@ export const Card = ({ children }: { children: Slottable }) => {
   const Slot =
     defineSlots <
     CardSlots >
-    (children,
-    ["header", "content", "footer"],
-    { inComponent: Card, throws: true });
+    (children, ["header", "content", "footer"], { inComponent: Card, throws: true });
   return (
     <div>
       <Slot name="header"></Slot>
@@ -131,7 +125,7 @@ export const Card = ({ children }: { children: Slottable }) => {
 
 Adding proper types and autocompletion for slot names during usage (not definition) has been a miserable failure so far, which is why runtime validation has been added.
 
-## Lock-in, or the absence thereof
+## Lock-in, or absence thereof
 
 This library does not want to lock you in. If you decide to adopt it and later on move away from it, my feeling will be hurt, but yours won't. Moving away is pretty straightforward.
 
