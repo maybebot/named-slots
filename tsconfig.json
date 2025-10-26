@@ -1,18 +1,17 @@
 {
-    "include": ["src"],
-    "compilerOptions": {
-      "jsx": "preserve",
-      "target": "ES2020",
-      "module": "NodeNext",
-      "lib": ["ES2020"],
-      "outDir": "dist",
-      "declaration": true,
-      "sourceMap": true,
-      "inlineSources": true,
-      "moduleResolution": "nodenext",
-      "strict": true,
-      "types": ["node"],
-      "erasableSyntaxOnly": true
-    }
+  "include": ["src"],
+  "compilerOptions": {
+    "jsx": "preserve",
+    "target": "ES2020",
+    "module": "NodeNext",
+    "lib": ["ES2020"],
+    "outDir": "dist",
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "moduleResolution": "nodenext",
+    "strict": true,
+    "types": ["node"],
+    "erasableSyntaxOnly": true
   }
-  
+}
