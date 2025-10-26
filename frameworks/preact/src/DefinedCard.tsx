@@ -1,11 +1,13 @@
-import { defineSlots, type Slottable } from "named-slots";
+import { defineSlots, type Slottable } from "../../../src/Slot";
 
 export const DefinedCard = ({ children }: { children: Slottable }) => {
-  const Slot = defineSlots<"header" | "content" | "footer">(children, [
-    "header",
-    "content",
-    "footer",
-  ]);
+  const { Slot, hasSlot } = defineSlots<"header" | "content" | "footer">(
+    children,
+    ["header", "content", "footer"]
+  );
+
+  const hasContent = hasSlot("content");
+  console.log("DefinedCard has content?", hasContent);
 
   return (
     <div className={"card"}>

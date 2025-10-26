@@ -1,6 +1,5 @@
 import { Slot, validateSlots, type Slottable } from "named-slots";
 
-// export default class Welcome extends React.Component {
 export const Card = ({ children }: { children: Slottable }) => {
   validateSlots(children, ["header", "content", "footer"], {
     inComponent: Card,
