@@ -19,12 +19,16 @@ const getSlot = <T extends unknown = string>({
   return slot ?? fallback;
 };
 
+const slotExists = <T extends unknown = string>(name: T, from: Slottable) => {
+  const slotted = Array.isArray(from) ? from : [from];
+  return slotted.some((el) => el.getAttribute("slot") === name);
+};
+
 /**
  * Named slot component. Renders the first child with a matching slot attribute.
  * @param {string} name - The name of the slot to render.
  * @param {any} children - The fallback content to render if no matching slot is found.
  * @param {Slottable} from - The children to search for the slot.
- * @returns {any} The matching slot or the fallback content.
  */
 export const Slot = <T extends unknown = string>({
   name,
@@ -97,6 +101,10 @@ export const defineSlots = <T extends unknown = string>(
 ) => {
   validateSlots(children, slotNames, options ?? {});
   // closure over children
-  return ({ name, children: fallback }: DefinedSlot<T>) =>
+  const Slot = ({ name, children: fallback }: DefinedSlot<T>) =>
     getSlot<T>({ name, children: fallback, from: children });
+
+  const hasSlot = (name: T) => slotExists<T>(name, children);
+
+  return { Slot, hasSlot };
 };
