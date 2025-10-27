@@ -103,7 +103,7 @@ import { defineSlots, type Slottable } from "named-slots";
 
 export const Card = ({ children }: { children: Slottable }) => {
   type CardSlots = "header" | "content" | "footer";
-  const Slot =
+  const { Slot } =
     defineSlots <
     CardSlots >
     (children, ["header", "content", "footer"], { inComponent: Card, throws: true });

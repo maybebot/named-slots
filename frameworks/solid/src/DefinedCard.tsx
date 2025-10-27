@@ -1,11 +1,13 @@
-import { Slottable, defineSlots } from "named-slots/solid";
+import { Slottable, defineSlots } from "../../../src/solid/Slot";
 
 export const DefinedCard = ({ children }: { children: Slottable }) => {
-  const Slot = defineSlots<"header" | "content" | "footer">(children, [
-    "header",
-    "content",
-    "footer",
-  ]);
+  const { Slot, hasSlot } = defineSlots<"header" | "content" | "footer">(
+    children,
+    ["header", "content", "footer"]
+  );
+
+  const hasContent = hasSlot("content");
+  console.log("DefinedCard has content?", hasContent);
 
   return (
     <div class={"card"}>
