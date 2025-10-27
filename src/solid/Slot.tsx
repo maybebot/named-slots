@@ -46,7 +46,7 @@ export const Slot = <T extends unknown = string>({
  * @param {Function} options.inComponent - The component where the slots are defined.
  * @returns {void}
  */
-export const validateSlots = <T extends unknown = string>(
+const validateSlots = <T extends unknown = string>(
   children: Slottable,
   slotNames: T[],
   { throws, inComponent }: { throws?: boolean; inComponent?: Function }

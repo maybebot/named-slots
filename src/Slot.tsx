@@ -45,10 +45,9 @@ export const Slot = <T extends unknown = string>({
  * @param {object} options - Additional options for better debugging.
  * @param {boolean} options.throws - If true, throws an error instead of logging it.
  * @param {Function} options.inComponent - The component where the slots are defined.
- * @deprecated use `defineSlots`, export will be removed in 0.4.x
  * @returns {void}
  */
-export const validateSlots = <T extends unknown = string>(
+const validateSlots = <T extends unknown = string>(
   children: Slottable,
   slotNames: T[],
   { throws, inComponent }: { throws?: boolean; inComponent?: Function }

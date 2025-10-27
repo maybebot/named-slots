@@ -1,10 +1,6 @@
-import { Slot, validateSlots, type Slottable } from "named-slots";
+import { Slot, type Slottable } from "named-slots";
 
 export const Card = ({ children }: { children: Slottable }) => {
-  validateSlots(children, ["header", "content", "footer"], {
-    inComponent: Card,
-  });
-
   return (
     <div className={"card"}>
       <Slot name="header" from={children}></Slot>
