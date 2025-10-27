@@ -1,11 +1,7 @@
-import { defineSlots, type Slottable } from "named-slots";
+import { defineSlots, type Slottable } from "../../../src/Slot";
 
 export const FlexingCard = ({ children }: { children: Slottable }) => {
-  const Slot = defineSlots<"header" | "content" | "footer">(children, [
-    "header",
-    "content",
-    "footer",
-  ]);
+  const { Slot } = defineSlots(children, ["header", "content", "footer"]);
 
   return (
     <div className={"card"}>

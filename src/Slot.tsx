@@ -93,17 +93,20 @@ type DefinedSlot<T = string> = Omit<Slot<T>, "from">;
  * @param slotNames names of Slots used in the component
  * @param options additional options for better debugging
  */
-export const defineSlots = <T extends unknown = string>(
+export const defineSlots = <SlotNames extends string[]>(
   children: Slottable,
-  slotNames: T[],
+  slotNames: SlotNames,
   options?: { inComponent?: Function; throws?: boolean }
 ) => {
   validateSlots(children, slotNames, options ?? {});
-  // closure over children
-  const Slot = ({ name, children: fallback }: DefinedSlot<T>) =>
-    getSlot<T>({ name, children: fallback, from: children });
 
-  const hasSlot = (name: T) => slotExists<T>(name, children);
+  type SlotName = SlotNames[number];
+
+  // closure over children
+  const Slot = ({ name, children: fallback }: DefinedSlot<SlotName>) =>
+    getSlot<SlotName>({ name, children: fallback, from: children });
+
+  const hasSlot = (name: SlotName) => slotExists<SlotName>(name, children);
 
   return { Slot, hasSlot };
 };
