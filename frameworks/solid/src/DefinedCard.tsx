@@ -1,4 +1,4 @@
-import { Slottable, defineSlots } from "../../../src/solid/Slot";
+import { type Slottable, defineSlots } from "named-slots/solid";
 
 export const DefinedCard = ({ children }: { children: Slottable }) => {
   const { Slot, hasSlot } = defineSlots(children, [

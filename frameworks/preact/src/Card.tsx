@@ -1,4 +1,4 @@
-import { Slot, type Slottable } from "../../../src/Slot";
+import { Slot, type Slottable } from "named-slots";
 
 export const Card = ({ children }: { children: Slottable }) => {
   return (
