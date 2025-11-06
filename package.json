@@ -12,20 +12,20 @@
     "react",
     "solid"
   ],
-  "main": "./dist/Slot.jsxs",
-  "module": "./dist/Slot.jsx",
+  "main": "./dist/Slot.js",
+  "module": "./dist/Slot.js",
   "exports": {
     ".": {
       "types": "./dist/Slot.d.ts",
-      "default": "./dist/Slot.jsx"
+      "default": "./dist/Slot.js"
     },
     "./solid": {
       "types": "./dist/solid/Slot.d.ts",
-      "default": "./dist/solid/Slot.jsx"
+      "default": "./dist/solid/Slot.js"
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
     "check:builds": "bash ./scripts/check-builds.sh"
   },
   "repository": {
@@ -38,6 +38,7 @@
   "devDependencies": {
     "@types/node": "^22.13.10",
     "prettier": "3.6.2",
+    "tsdown": "^0.16.0",
     "typescript": "^5.8.2"
   }
 }
