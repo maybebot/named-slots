@@ -1,4 +1,4 @@
-export type Slottable = { props: any }[] | { props: any }; // relaxed for compatibility between preact/react
+export type Slottable = { props: any }[] | { props: any } | undefined; // relaxed for compatibility between preact/react
 
 interface Slot<T = string> {
   name: T;
@@ -12,7 +12,7 @@ const getSlot = <T extends unknown = string>({
   from,
 }: Slot<T>) => {
   const slotted = Array.isArray(from) ? from : [from];
-  const slot = slotted.find((el) => el.props?.slot === name);
+  const slot = slotted.find((el) => el?.props?.slot === name);
   // @ts-ignore-error type not declared in Slottable, present on HTML elements
   if (slot?.type === "template") {
     return slot.props.children;
@@ -22,7 +22,7 @@ const getSlot = <T extends unknown = string>({
 
 const slotExists = <T extends unknown = string>(name: T, from: Slottable) => {
   const slotted = Array.isArray(from) ? from : [from];
-  return slotted.some((el) => el.props?.slot === name);
+  return slotted.some((el) => el?.props?.slot === name);
 };
 
 /**
@@ -54,6 +54,7 @@ const validateSlots = <T extends unknown = string>(
 ) => {
   if (process.env.NODE_ENV !== "development") return;
 
+  if (children === undefined) return;
   const usedSlots: T[] = [];
   const slotted = Array.isArray(children) ? children : [children];
 
