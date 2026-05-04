@@ -5,8 +5,8 @@ set -e
 
 # Build the package
 echo "Building & pack"
-npm run build
-npm pack
+pnpm run build
+pnpm pack
 
 # Get the name of the packed file (assuming there's only one .tgz file)
 PACKAGE_FILE=$(ls *.tgz)
@@ -14,25 +14,25 @@ PACKAGE_FILE=$(ls *.tgz)
 # Preact
 echo "# Installing for preact"
 cd ./frameworks/preact/
-npm install ../../"$PACKAGE_FILE"
-npm run build
-git checkout -- package.json package-lock.json
+pnpm install ../../"$PACKAGE_FILE"
+pnpm run build
+git checkout -- package.json pnpm-lock.yaml
 cd ../../
 
 # React
 echo "# Installing for react"
 cd ./frameworks/react/
-npm install ../../"$PACKAGE_FILE"
-npm run build
-git checkout -- package.json package-lock.json
+pnpm install ../../"$PACKAGE_FILE"
+pnpm run build
+git checkout -- package.json pnpm-lock.yaml
 cd ../../
 
 # Solid
 echo "# Installing for solid"
 cd ./frameworks/solid/
-npm install ../../"$PACKAGE_FILE"
-npm run build
-git checkout -- package.json package-lock.json
+pnpm install ../../"$PACKAGE_FILE"
+pnpm run build
+git checkout -- package.json pnpm-lock.yaml
 cd ../../
 
 # Removal
