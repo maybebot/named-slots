@@ -35,6 +35,22 @@
   "author": "Ian Bobinac",
   "license": "MIT",
   "description": "Named slots for preact, react and solid",
+  "peerDependencies": {
+    "preact": ">=10",
+    "react": ">=17",
+    "solid-js": ">=1"
+  },
+  "peerDependenciesMeta": {
+    "preact": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/node": "^25.6.0",
     "prettier": "3.8.3",
