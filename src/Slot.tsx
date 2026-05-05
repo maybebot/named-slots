@@ -75,6 +75,7 @@ const validateSlots = <T extends unknown = string>(
       throwOrLog(
         `A Slot${definedIn} received children missing a slot attribute.${validSlots}`
       );
+      return;
     } else if (!slotNames.includes(slotName)) {
       throwOrLog(`Slot '${slotName}'${definedIn} is not valid. ${validSlots}`);
     }
