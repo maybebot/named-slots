@@ -6,11 +6,7 @@ interface Slot<T = string> {
   from: any[];
 }
 
-const getSlot = <T extends unknown = string>({
-  name,
-  children: fallback,
-  from,
-}: Slot<T>) => {
+const getSlot = <T extends unknown = string>({ name, children: fallback, from }: Slot<T>) => {
   const slotted = Array.isArray(from) ? from : [from];
   const slot = slotted.find((el) => el?.getAttribute("slot") === name);
   if (slot?.tagName === "TEMPLATE") {
@@ -30,11 +26,8 @@ const slotExists = <T extends unknown = string>(name: T, from: Slottable) => {
  * @param {any} children - The fallback content to render if no matching slot is found.
  * @param {Slottable} from - The children to search for the slot.
  */
-export const Slot = <T extends unknown = string>({
-  name,
-  children: fallback,
-  from,
-}: Slot<T>) => getSlot<T>({ name, children: fallback, from });
+export const Slot = <T extends unknown = string>({ name, children: fallback, from }: Slot<T>) =>
+  getSlot<T>({ name, children: fallback, from });
 
 /**
  * Check at runtime if slots are valid. Detects undefined, duplicates and invalid slot names.
@@ -49,7 +42,7 @@ export const Slot = <T extends unknown = string>({
 const validateSlots = <T extends unknown = string>(
   children: Slottable,
   slotNames: T[],
-  { throws, inComponent }: { throws?: boolean; inComponent?: Function }
+  { throws, inComponent }: { throws?: boolean; inComponent?: Function },
 ) => {
   if (process.env.NODE_ENV !== "development") return;
 
@@ -72,9 +65,7 @@ const validateSlots = <T extends unknown = string>(
   slotted.forEach((child) => {
     const slotName = child.getAttribute("slot");
     if (!slotName) {
-      throwOrLog(
-        `A Slot${definedIn} received children missing a slot attribute.${validSlots}`
-      );
+      throwOrLog(`A Slot${definedIn} received children missing a slot attribute.${validSlots}`);
       return;
     }
     if (!slotNames.includes(slotName)) {
@@ -100,7 +91,7 @@ type DefinedSlot<T = string> = Omit<Slot<T>, "from">;
 export const defineSlots = <SlotNames extends string[]>(
   children: Slottable,
   slotNames: SlotNames,
-  options?: { inComponent?: Function; throws?: boolean }
+  options?: { inComponent?: Function; throws?: boolean },
 ) => {
   validateSlots(children, slotNames, options ?? {});
 

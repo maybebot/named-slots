@@ -1,11 +1,7 @@
 import { type Slottable, defineSlots } from "named-slots/solid";
 
 export const DefinedCard = ({ children }: { children: Slottable }) => {
-  const { Slot, hasSlot } = defineSlots(children, [
-    "header",
-    "content",
-    "footer",
-  ] as const);
+  const { Slot, hasSlot } = defineSlots(children, ["header", "content", "footer"] as const);
 
   const hasContent = hasSlot("content");
   console.log("DefinedCard has content?", hasContent);
