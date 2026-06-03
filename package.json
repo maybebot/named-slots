@@ -74,5 +74,10 @@
     "solid-js": {
       "optional": true
     }
-  }
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=11"
+  },
+  "packageManager": "pnpm@11.3.0"
 }
