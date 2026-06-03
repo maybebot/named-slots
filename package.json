@@ -1,6 +1,6 @@
 {
   "name": "named-slots",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Named slots for preact, react and solid",
   "keywords": [
     "named",
